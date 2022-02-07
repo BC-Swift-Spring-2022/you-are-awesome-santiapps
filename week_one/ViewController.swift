@@ -7,21 +7,65 @@
 
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     @IBOutlet weak var messegeLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
-    var imageNumber = 0
-    var messege = ["Hello","Have a Good Day","Hola","¿Como Estas?","Kaixo!","zelan zaude?","Nice Pic","Cool App","Great Array","agur eta egun on"]
+    var imageNumber = -1
+    var messegeNumber = -1
+    var totalImages = 9
 
-
+    var audioPlayer: AVAudioPlayer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print("hello")
     }
     @IBAction func clicker(_ sender: Any) {
+        
+        
+        let messege = ["Hello","Have a Good Day","Hola","¿Como Estas?","Kaixo!","zelan zaude?","Nice Pic","Cool App","Great Array","agur eta egun on"]
+
+        var newMessegeNumber: Int
+        
+        repeat{
+            newMessegeNumber = Int.random(in: 0...messege.count-1)
+        } while newMessegeNumber == messegeNumber
+        
+        messegeNumber = newMessegeNumber
+        messegeLabel.text = messege[messegeNumber]
+        
+        
+        var newImageNumber: Int
+        
+        repeat{
+            newImageNumber = (Int.random(in: 0...totalImages))
+        } while newImageNumber == imageNumber
+        imageNumber = newImageNumber
+        imageView.image = UIImage(named: "image\(imageNumber)")
+        
+        
+        if let sound = NSDataAsset(name: "sound0"){
+            do{
+                try audioPlayer = AVAudioPlayer(data: sound.data)
+                audioPlayer.play()
+            } catch{
+                print("error catch")
+
+             }
+            
+        }else{
+            print("error else. Nil")
+        }
+        
+        
+        
+        
+        
+        
             
 //        let awesomeMessege = "You Are Awesome!"
 //        let greatMessege = "You Are Great!"
@@ -53,10 +97,9 @@ class ViewController: UIViewController {
 //            imageNumber = 0
         
         
-        messegeLabel.text = messege[Int.random(in: 0...messege.count-1)]
         
         
-        imageView.image = UIImage(named: "image\(Int.random(in: 0...9))")
+        
         }
         
 }
